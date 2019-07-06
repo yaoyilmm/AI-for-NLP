@@ -1,0 +1,51 @@
+2.1. what do you want to acquire in this course£¿
+       I hope that I will can get a good job after this studying for the four month.
+2.2. what problems do you want to solve£¿
+      I hope I will get some experience about AI project .
+2.3. what¡¯s the advantages you have to finish you goal?
+      I graduated from the department of mathematics, and I have some programming experience.
+2.4. what¡¯s the disadvantages you need to overcome to finish you goal?
+     I am not good at English .
+2.5. How will you plan to study in this course period?
+      I decided to listen to every lesson carefully and do my homework as well as I can.
+
+
+0. Can you come up out 3 sceneraies which use AI methods?
+
+Ans: Take the high-speed rail though security check,face recognition¡¢big data,driverless .
+
+1. How do we use Github; Why do we use Jupyter and Pycharm;
+
+Ans: Create a Repository, Create a Branch, Make a Commit ,Open a Pull Request ,Merge Pull Request.GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.Visualization, easy to use existing frameworks
+Program compile and run.
+
+2. What's the Probability Model?
+
+Ans:Statistical analysis tool that estimates, on the basis of past large data, the probability of an event occurring again.
+
+3. Can you came up with some sceneraies at which we could use Probability Model?
+
+Ans:Image classification ¡¢machine translation
+
+4. Why do we use probability and what's the difficult points for programming based on parsing and pattern match?
+
+Ans:The accracy can be measured by the probability ,the difficult points is because text is logic¡¢diversity and unstructured
+
+5. What's the Language Model;
+
+Ans: A model used to describe the probability distribution of words, sentences, and even different grammatical units of the entire document can be used to measure whether a sentence or sequence of words conforms to the daily way of speaking in a local language environment.
+6. Can you came up with some sceneraies at which we could use Language Model?
+
+Ans:speech recognition ¡¢machine translation
+
+7. What's the 1-gram language model;
+
+Ans:That is, the unary grammar model, which is a context-independent model. The model only considers the probability that the current word itself appears, regardless of the context of the current word. The probability form is P(w1, w2,...,wm)=P(w1)?P(w2)?...?P(wm)P(w1,w2,...,wm)=P(w1 )?P(w2)?...?P(wm) P(w_1,w_2,...,w_m)=P(w_1)*P(w_2)*...*P(w_m) P(w1 , w2 ,...,wm )=P(w1 )?P(w2 )?...?P(wm ), that is, the probability that a sentence appears is equal to the probability product of each word in the sentence.
+
+8. What's the disadvantages and advantages of 1-gram language model;
+
+Ans:The disadvantage is that the model only considers the probability that the current word itself appears, without considering the context of the current word. The advantage is that the calculation is simple
+
+9. What't the 2-gram models;? 
+
+Ans:The current word is only related to a word in front of it£¬
