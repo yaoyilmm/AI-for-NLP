@@ -27,8 +27,9 @@ for i in table:
                name = cols.text.strip()
                nameList.append(name)
            
-print(nameList)
-print(stationDic)
+#print(nameList)
+#print(stationDic)
+
 curName = ''
 for i in table:
     rows = i.findAll('div')
@@ -40,6 +41,15 @@ for i in table:
             if row['class']== ['station']:
                  station = row.text.strip()
                  stationDic[curName].append(station)
-print(stationDic)                
-           
-
+#print(stationDic)  
+              
+connection_info_src = {}           
+for k,v in enumerate(stationDic):
+      for idx, val in enumerate(stationDic[v]):
+         if val not in connection_info_src.keys():
+              connection_info_src[val] = []
+         if idx > 1:
+              connection_info_src[val].append(stationDic[v][idx -1])
+         if idx + 1 < len(stationDic[v]):
+              connection_info_src[val].append(stationDic[v][idx+1])
+print(connection_info_src)
