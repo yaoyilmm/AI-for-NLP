@@ -9,12 +9,58 @@ import requests
 import re
 import math
 from bs4 import BeautifulSoup
+#通过北京地铁百科获取北京地铁的详细信息
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'}
+url = 'https://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81/408485'
+response = requests.get(url, headers = headers, allow_redirects=False)
+response.encoding="utf-8"
+soup = BeautifulSoup(response.content, 'lxml')
+table = soup.findAll('table', attrs={'log-set-param':"table_view",'data-sort':"sortDisabled"})
+lineDic= {}
+for i in table:
+    rows = i.findAll('tr')
+    for row in rows:
+            cols = row.findAll('td')
+            if len(cols) > 0:
+                href = cols[0].find_all('a',{'href':re.compile("\/item.*"),'data-lemmaid' : ''})
+                for item in href:                
+                       website = item.get('href') 
+                       name = item.text.strip()
+                       lineDic[name]= website
+                      
+#print(lineDic)
+#url = 'https://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%8115%E5%8F%B7%E7%BA%BF'
+url = 'https://baike.baidu.com' + lineDic['北京地铁15号线']
+response = requests.get(url, headers = headers, allow_redirects=False)
+response.encoding="utf-8"
+soup = BeautifulSoup(response.text, 'lxml')
+#15号线
+table15 = soup.findAll('table', attrs={'class':"fifteen",'log-set-param':"table_view" ,'data-sort':"sortDisabled", 'width':"658"})
+#print(len(table15))
+stationName = []
+for i in table15:
+        rows = i.findAll('tr')
+        for row in rows:
+            cols = row.findAll('th')# 15号线
+            if cols != None  and cols != []:
+                 #print(cols)
+                 s = cols[0].text.strip()
+                 p = re.match( r'(.*)——.*', s)
+                 #print(p)
+                 if p != None or s == '车站名称' or s == '起始/终到车站':
+                     continue
+                 else:
+                     stationName.append(s)
+       
+#获得了15号线的所有站点  
+print('15号线的所有站点') 
+print(stationName)
+#因为北京地铁百科数据读取比较复杂，后来改为读取北京地铁官网的数据了
 url = 'https://www.bjsubway.com/station/xltcx/'
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'}
 response = requests.get(url, headers = headers, allow_redirects=False,verify=False)
 response.encoding="gb2312"
 soup = BeautifulSoup(response.content, 'lxml')
-
 table = soup.findAll('div', attrs={'class':"line_content"})
 #print((table))
 nameList = []
@@ -30,7 +76,7 @@ for i in table:
            
 #print(nameList)
 #print(stationDic)
-
+#获取北京地铁所有线路对应的站点信息
 curName = ''
 for i in table:
     rows = i.findAll('div')
@@ -47,21 +93,20 @@ def writefileContentTOFile(_content):
     with open("station.txt", 'w'
               ,encoding='utf-8') as f:#文件名不能当作参数传
          for a in _content:
-             f.write(str(a) + '\n')  
+             f.write(str(a) + '\n') 
+#北京地铁14号线的数据每个站点的顺序不对，所以这块我重新赋值了            
 stationDic['14号线'] = [ "善各庄","来广营", "东湖渠", "望京","阜通",  "望京南","将台","东风北桥", "枣营", "朝阳公园","金台路","大望路",   "九龙山", "平乐园" ,"北工大西门", "十里河","方庄", "蒲黄榆", "景泰", "永定门外","北京南站"]            
-             
+           
 #with open('station.json','w',encoding='utf-8') as f:
  # json.dump(stationDic,f,ensure_ascii=False)
 # 从文件读取数据
+#读的时候总是报错 还没解决这个问题，如果老师有时间了希望帮我看一下
 '''
-with open('station2.json','r',encoding='UTF-8 BOM') as f:
-   stationDic = json.load(f,encoding='UTF-8 BOM')
-if stationDic.startswith(u'\ufeff'):
-     stationDic = stationDic.encode('utf-8')[3:].decode('utf-8')
+with open('station2.json','r',encoding='UTF-8') as f:
+   stationDic = json.load(f)
+   if stationDic.startswith(u'\ufeff'):
+     #stationDic = stationDic.encode('utf-8')[3:].decode('utf-8')
 '''
-#stationDic = stationDic.decode("utf-8-sig")
-#file.close()小结
-
 connection_info_src = {}           
 for k,v in enumerate(stationDic):
     for idx, val in enumerate(stationDic[v]):
@@ -72,41 +117,27 @@ for k,v in enumerate(stationDic):
          if idx + 1 < len(stationDic[v]):
               connection_info_src[val].append(stationDic[v][idx+1])
 #print(connection_info_src)
+#2号线 10号线是环路，所以进行了手动处理              
 connection_info_src['西直门'].append('车公庄')
 connection_info_src['车公庄'].append('西直门')
 connection_info_src['巴沟'].append('火器营')
 connection_info_src['火器营'].append('巴沟')
 #print(connection_info_src)
-writefileContentTOFile(connection_info_src)
-simple_connection_info_src = {
-    '北京': ['太原', '沈阳'],
-    '太原': ['北京', '西安', '郑州'],
-    '兰州': ['西安'],
-    '郑州': ['太原'],
-    '西安': ['兰州','太原', '长沙'],
-    '长沙': ['福州', '南宁'],
-    '沈阳': ['北京']
-}
+
+#如果两个站是同一个地铁线，返回该地铁线
 def chechIsSameLine(start,end):
     for k,v in enumerate(stationDic):
        if stationDic[v].count(start) == 1 and stationDic[v].count(end) == 1:
             return v
     return None
-def getStationOfLine(station):
-    for k,v in enumerate(stationDic):
-       if stationDic[v].count(station) == 1 :
-            return v
-    return None
+
 def search(start, destination, connection_grpah, sort_candidate):
     pathes = [[start]]
     visitied = set()
     
     while pathes: # if we find existing pathes
-        #print(pathes)
         path = pathes.pop(0)
-       # print(path)
         froninter = path[-1]
-       #print(froninter)
         if froninter in visitied: continue
         successors = connection_grpah[froninter]
         for city in successors:
@@ -126,6 +157,7 @@ def transfer_stations_first(pathes):
     return sorted(pathes, key=len)
 def transfer_as_much_possible(pathes):
     return sorted(pathes, key=len, reverse=True)
+#按照换乘最少排序
 def transfer_station_less_2(pathes):
     if len(pathes) <= 1: return pathes
     
@@ -140,7 +172,6 @@ def transfer_station_less_2(pathes):
                 line.append(temp)
             
         return len(line)
-
     return sorted(pathes, key=get_transfter)
 def shortest_path_first(pathes):
     
@@ -167,8 +198,7 @@ def get_geo_distance(origin, destination):
          math.sin(dlon / 2) * math.sin(dlon / 2))
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     d = radius * c
-
     return d
-#s = search('兰州', '福州', simple_connection_info_src, sort_candidate=transfer_stations_first)
+#按照最少换乘排序
 s = search('劲松','霍营',connection_info_src, sort_candidate=transfer_station_less_2)
-print(s)
+print('=>'.join(s))
