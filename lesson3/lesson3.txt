@@ -1,0 +1,42 @@
+﻿Why do we use Derivative / Gredient to fit a target function?¶
+
+Ans:能够控制所求参数的变化方向，更快速的找到最拟合的公式。
+
+In the words 'Gredient Descent', what's the Gredient and what's the Descent?¶
+
+Ans:梯度是函数在某一空间点的方向导数，梯度下降是指沿着这个方向函数的值下降的最快。
+
+What's the advantages of the 3rd gradient descent method compared to the previous methods?
+
+Ans:使得loss减下的更快，在更短的时间内获得更好的拟合公式。
+
+Using the simple words to describe: What's the machine leanring.¶
+
+Ans:应用大量的数据，对数据的拟合效果进行监督，不断的调整，找到正确的方向，
+更加快速有效的找到最佳拟合的公式，来处理我们需要解决的问题。
+
+
+Why do we need dynamic programming? What's the difference of dynamic programming and previous talked search problme? 
+Ans:如果每次决策都依赖于当前状态，又会随即引起状态的转移，在变化转移的过程中产生一个决策链，我们需要得到最优的决策链，就需要用到动态规划。动态规划解决的问题一般被分解为重复的子问题，我们会把重复的子问题的最方案存起来，最后解析，得到解决最终问题的最优方案
+
+Why do we still need dynamic programming? Why not we train a machine learning to fit a function which could get the right answer based on inputs?
+Ans:一般具有以下三个特点的问题我们都需要用动态规划来解决。
+   （1）有重叠子问题，而且子问题相互不是独立的，一个子问题可能在下个决策中多次用到 
+     (2) 无后效性：即某阶段状态一旦确定，就不受这个状态以后决策的影响。
+     (3) 最优化原理：如果问题的最优解所包含的子问题的解也是最优的，就称该问题具有最优子结构，即满足最优化原理。
+     所以训练机器人，根据用户的输入回答用户的问题不可以使用动态规划，因为他不符合动态规划解决的问题的特点。
+
+Can you catch up at least 3 problems which could solved by Dynamic Programming? 
+Ans:装配线调度   背包问题  快递送餐最短路径
+
+
+Can you catch up at least 3 problems wich could sloved by Edit Distance? 
+Ans:输入检测  网页搜索 自动评分
+
+Please summarize the three main features of Dynamic Programming, and make a concise explain for each feature. 
+Ans:（1）有重叠子问题，而且子问题相互不是独立的，一个子问题可能在下个决策中多次用到 
+     (2) 无后效性：即某阶段状态一旦确定，就不受这个状态以后决策的影响。
+     (3) 最优化原理：如果问题的最优解所包含的子问题的解也是最优的，就称该问题具有最优子结构，即满足最优化原理。
+What's the disadvantages of Dynamic Programming? (You may need search by yourself in Internet)
+Ans:1. 没有统一的标准模型；
+       2. 数值方法求解时存在维数灾。
