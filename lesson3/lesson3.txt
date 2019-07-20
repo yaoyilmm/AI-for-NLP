@@ -17,7 +17,9 @@ Ans:应用大量的数据，对数据的拟合效果进行监督，不断的调�
 
 
 Why do we need dynamic programming? What's the difference of dynamic programming and previous talked search problme? 
-Ans:如果每次决策都依赖于当前状态，又会随即引起状态的转移，在变化转移的过程中产生一个决策链，我们需要得到最优的决策链，就需要用到动态规划。动态规划解决的问题一般被分解为重复的子问题，我们会把重复的子问题的最方案存起来，最后解析，得到解决最终问题的最优方案
+Ans:如果每次决策都依赖于当前状态，又会随即引起状态的转移，在变化转移的过程中产生一个决策链，
+我们需要得到最优的决策链，就需要用到动态规划。动态规划解决的问题一般被分解为重复的子问题，
+我们会把重复的子问题的最方案存起来，最后解析，得到解决最终问题的最优方案
 
 Why do we still need dynamic programming? Why not we train a machine learning to fit a function which could get the right answer based on inputs?
 Ans:一般具有以下三个特点的问题我们都需要用动态规划来解决。
